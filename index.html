@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Victoria's Secret | Bras, Lingerie, Sleepwear, Fine Fragrance &amp; PINK — By Tamojit Roy</title>
+  <meta name="description" content="Official-style responsive Victoria's Secret &amp; PINK flagship web application clone. Shop Bombshell Fine Fragrance, Washable Silk Sleepwear, Lingerie, and Lounge. Engineered &amp; Developed by Tamojit Roy." />
+  <meta name="author" content="Tamojit Roy" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-white text-gray-900 antialiased selection:bg-pink-200 selection:text-black">
+
+  <!-- 1. TOP PROMOTIONAL RIBBON & BRAND SWITCHER BAR -->
+  <div class="bg-black text-white border-b border-neutral-800 text-xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2">
+      
+      <!-- Brand Switcher Tabs -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <button type="button" data-brand-tab="All" onclick="setBrandFilter('All')" class="px-3 py-1 text-xs font-bold tracking-widest uppercase bg-white text-black rounded-sm transition">
+          ALL BRANDS
+        </button>
+        <button type="button" data-brand-tab="Victoria's Secret" onclick="setBrandFilter('Victoria\'s Secret')" class="px-3 py-1 text-xs font-semibold tracking-widest uppercase text-pink-200 hover:text-white transition">
+          VICTORIA'S SECRET
+        </button>
+        <button type="button" data-brand-tab="PINK" onclick="setBrandFilter('PINK')" class="px-3 py-1 text-xs font-semibold tracking-widest uppercase text-pink-200 hover:text-white transition">
+          PINK
+        </button>
+        <button type="button" data-brand-tab="VS Beauty" onclick="setBrandFilter('VS Beauty')" class="hidden sm:inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase text-pink-200 hover:text-white transition">
+          VS BEAUTY
+        </button>
+      </div>
+
+      <!-- Center Offer Ticker -->
+      <div class="hidden xl:flex items-center gap-2 text-[11px] tracking-wider uppercase text-pink-100">
+        <span class="inline-block w-2 h-2 rounded-full bg-pink-400 animate-pulse"></span>
+        <span>LIMITED TIME: <strong>25% OFF ENTIRE ORDER</strong> WITH CODE <strong class="underline cursor-pointer text-pink-300" onclick="copyTextSafe('VSANGEL25', 'Angel Promo Code')">VSANGEL25</strong> + FREE SHIPPING ON $75+</span>
+      </div>
+
+      <!-- Right Utility Links & Developer Credit Pill -->
+      <div class="flex items-center gap-3 ml-auto">
+        <button type="button" onclick="openModal('store-locator-modal')" class="hidden md:inline-flex items-center gap-1 text-[11px] text-gray-300 hover:text-pink-200 transition">
+          <svg class="w-3.5 h-3.5 text-pink-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Stores &amp; Bra Fittings</span>
+        </button>
+
+        <button type="button" onclick="openModal('rewards-modal')" class="inline-flex items-center gap-1 text-[11px] text-pink-200 hover:text-white font-semibold transition">
+          <span>★ VS Collective:</span>
+          <span id="header-points-label" class="bg-pink-900/70 border border-pink-500/40 px-1.5 py-0.5 rounded text-[10px]">1,450 PTS</span>
+        </button>
+
+        <label for="currency-selector-desktop" class="sr-only">Select Currency</label>
+        <select id="currency-selector-desktop" onchange="handleCurrencyChange(this.value)" class="bg-neutral-900 text-pink-100 border border-neutral-700 rounded px-2 py-0.5 text-[11px] font-semibold focus:outline-none focus:border-pink-400">
+          <option value="USD">USD ($)</option>
+          <option value="INR">INR (₹)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+        </select>
+
+        <button type="button" onclick="openModal('developer-credit-modal')" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-pink-600 to-rose-500 text-white text-[10px] font-bold tracking-wider uppercase shadow-sm hover:brightness-110 transition">
+          <span>Dev: Tamojit Roy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ICONIC VICTORIA'S SECRET PINK & WHITE STRIPE ACCENT BAR -->
+  <div class="vs-iconic-stripes h-2.5 w-full border-b border-pink-200/70"></div>
+
+  <!-- 3. STICKY MAIN HEADER & NAVIGATION -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-pink-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      
+      <!-- Upper Masthead Row -->
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
+        
+        <!-- Left: Mobile Hamburger + Desktop Search & Fit Quiz -->
+        <div class="flex items-center gap-2 sm:gap-4 flex-1">
+          <button type="button" onclick="openMobileMenu()" aria-label="Open Navigation Menu" class="lg:hidden p-2 rounded-lg text-gray-800 hover:bg-pink-50 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+
+          <!-- Desktop Search Bar -->
+          <div class="hidden md:flex items-center relative w-56 lg:w-72">
+            <svg class="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input id="catalog-search-input" type="search" placeholder="Search Bombshell, Satin, Bras..." class="w-full pl-9 pr-3 py-1.5 text-xs bg-pink-50/50 border border-pink-200 rounded-full focus:outline-none focus:border-black focus:bg-white transition" />
+          </div>
+
+          <button type="button" onclick="openModal('fit-finder-modal')" class="hidden xl:inline-flex items-center gap-1.5 text-xs font-semibold text-pink-800 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-3 py-1.5 rounded-full transition">
+            <span>📏 Bra Fit Calculator</span>
+          </button>
+        </div>
+
+        <!-- Center: Iconic Victoria's Secret Serif Masthead -->
+        <div class="text-center flex-shrink-0">
+          <button type="button" onclick="setBrandFilter('All'); setCategoryFilter('All'); scrollToSection('hero-section');" class="group focus:outline-none">
+            <span class="block font-serif-vs text-xl sm:text-3xl lg:text-4xl font-bold tracking-[0.18em] text-black group-hover:text-pink-800 transition">
+              VICTORIA'S SECRET
+            </span>
+            <span class="block text-[9px] sm:text-[10px] font-semibold tracking-[0.28em] uppercase text-pink-700 -mt-0.5">
+              NEW YORK • PARIS • LONDON • ATELIER
+            </span>
+          </button>
+        </div>
+
+        <!-- Right: Scent Finder, Wishlist, Rewards & Shopping Bag -->
+        <div class="flex items-center justify-end gap-1.5 sm:gap-3 flex-1">
+          <button type="button" onclick="openModal('scent-finder-modal')" class="hidden lg:inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-gray-200 hover:border-pink-400 text-xs font-medium text-gray-800 transition">
+            <span>✨ Scent Quiz</span>
+          </button>
+
+          <!-- Wishlist Trigger -->
+          <button type="button" onclick="openModal('wishlist-modal')" aria-label="View Saved Wishlist" class="relative p-2 rounded-full hover:bg-pink-50 text-gray-800 transition">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <span id="header-wishlist-count" class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-pink-600 text-white text-[10px] font-bold flex items-center justify-center">
+              2
+            </span>
+          </button>
+
+          <!-- Shopping Bag Trigger -->
+          <button type="button" onclick="openBagDrawer()" aria-label="Open Shopping Bag" class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-black hover:bg-pink-700 text-white text-xs font-bold tracking-wider uppercase transition shadow-sm">
+            <svg class="w-4 h-4 text-pink-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span class="hidden sm:inline">Bag</span>
+            <span id="header-bag-count" class="px-1.5 py-0.2 rounded-full bg-pink-200 text-black text-[11px] font-extrabold">
+              2
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search Bar (Visible below 768px) -->
+      <div class="md:hidden pb-2.5">
+        <div class="relative">
+          <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-2.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="catalog-search-input-mobile" type="search" placeholder="Search Bombshell perfume, satin pajamas, bras, totes..." class="w-full pl-9 pr-3 py-2 text-xs bg-pink-50/50 border border-pink-200 rounded-full focus:outline-none focus:border-black focus:bg-white" />
+        </div>
+      </div>
+
+      <!-- Desktop Category Mega-Menu Bar -->
+      <nav aria-label="Main Category Navigation" class="hidden lg:flex items-center justify-center gap-7 py-2.5 border-t border-pink-100/80 text-xs font-bold tracking-widest uppercase text-gray-800">
+        <button type="button" data-nav-cat="All" onclick="setCategoryFilter('All'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          New &amp; Bestsellers
+        </button>
+        <button type="button" data-nav-cat="Sleep & Lingerie" onclick="setCategoryFilter('Sleep & Lingerie'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          Sleep &amp; Lingerie
+        </button>
+        <button type="button" data-nav-cat="Fine Fragrance" onclick="setCategoryFilter('Fine Fragrance'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          Fine Fragrance
+        </button>
+        <button type="button" data-nav-cat="Beauty & Mist" onclick="setCategoryFilter('Beauty & Mist'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          Mist &amp; Body Care
+        </button>
+        <button type="button" data-nav-cat="Lounge & Cashmere" onclick="setCategoryFilter('Lounge & Cashmere'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          Lounge &amp; Cashmere
+        </button>
+        <button type="button" data-nav-cat="Bags & Accessories" onclick="setCategoryFilter('Bags & Accessories'); scrollToSection('catalog-section');" class="py-1 hover:text-pink-700 transition">
+          Bags &amp; Accessories
+        </button>
+        <button type="button" onclick="openModal('fit-finder-modal')" class="py-1 text-pink-700 hover:text-black transition">
+          The Fit Salon
+        </button>
+        <button type="button" onclick="scrollToSection('editorial-lookbook-section')" class="py-1 hover:text-pink-700 transition">
+          Runway Lookbook
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 4. HERO EDITORIAL CAMPAIGN SECTION -->
+  <section id="hero-section" class="relative bg-neutral-950 text-white overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[460px] sm:min-h-[540px]">
+      
+      <!-- Left Editorial Copy -->
+      <div class="lg:col-span-5 p-6 sm:p-10 lg:p-12 flex flex-col justify-center z-10 bg-gradient-to-b from-neutral-950 via-neutral-950/95 to-neutral-900">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 border border-pink-400/40 text-pink-200 text-[11px] font-bold tracking-widest uppercase w-fit mb-4">
+          <span>THE ICON ATELIER COLLECTION • 2026</span>
+        </div>
+
+        <h1 class="font-serif-vs text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-white">
+          Silk, Satin &amp; <span class="italic text-pink-300">Bombshell</span> Radiance.
+        </h1>
+
+        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mt-4">
+          Step inside the official-style Victoria's Secret flagship experience. Discover America's No. 1 Bombshell Eau de Parfum, our iconic pink-striped washable silk sleepwear, and custom Memory Fit Demi bras.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button type="button" onclick="setCategoryFilter('All'); scrollToSection('catalog-section');" class="px-6 py-3 bg-pink-200 hover:bg-white text-black text-xs font-extrabold tracking-widest uppercase rounded-lg shadow-lg transition">
+            Shop The Collection
+          </button>
+          <button type="button" onclick="openModal('scent-finder-modal')" class="px-5 py-3 bg-transparent hover:bg-white/10 text-pink-200 border border-pink-300/60 text-xs font-bold tracking-widest uppercase rounded-lg transition">
+            Find Your Fragrance
+          </button>
+        </div>
+
+        <!-- Interactive Promo Vouchers Row -->
+        <div class="mt-7 pt-5 border-t border-white/15 grid grid-cols-2 gap-3">
+          <div onclick="copyTextSafe('VSANGEL25', '25% Off Promo')" class="p-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-pink-300/30 cursor-pointer transition">
+            <span class="block text-[10px] text-pink-300 font-bold uppercase tracking-wider">25% OFF EVERYTHING</span>
+            <span class="text-xs font-bold text-white mt-0.5 block">Code: VSANGEL25 <span class="text-[10px] font-normal text-pink-200 underline ml-1">Copy</span></span>
+          </div>
+          <div onclick="copyTextSafe('BOMBSHELL15', '$15 Off Promo')" class="p-2.5 rounded-lg bg-white/5 hover:bg-white/10 border border-pink-300/30 cursor-pointer transition">
+            <span class="block text-[10px] text-pink-300 font-bold uppercase tracking-wider">$15 OFF ORDERS $75+</span>
+            <span class="text-xs font-bold text-white mt-0.5 block">Code: BOMBSHELL15 <span class="text-[10px] font-normal text-pink-200 underline ml-1">Copy</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Studio Campaign Image -->
+      <div class="lg:col-span-7 relative min-h-[280px] sm:min-h-[380px] lg:min-h-full overflow-hidden">
+        <img id="vs-hero-banner-img" src="" alt="Victoria's Secret Luxury Satin Robes and Crystal Perfume Vanity" class="w-full h-full object-cover object-center" />
+        <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-neutral-950 via-transparent to-transparent opacity-80 lg:opacity-60"></div>
+        
+        <!-- Floating Featured Tag on Hero Image -->
+        <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 bg-black/85 backdrop-blur-md border border-pink-300/40 rounded-xl p-3.5 max-w-xs text-white shadow-xl">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300">Featured on Set</span>
+              <p class="font-serif-vs text-sm font-bold">Very Sexy Chantilly Silk Robe</p>
+              <p class="text-xs text-pink-200 font-semibold mt-0.5">Now $84.95 • Save 13%</p>
+            </div>
+            <button type="button" onclick="openProductModal('vs-03')" class="px-3 py-2 bg-pink-200 hover:bg-white text-black text-[11px] font-bold uppercase tracking-wider rounded-lg transition">
+              View
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. INTERACTIVE OFFERS & SERVICES STRIP -->
+  <section class="bg-pink-50/70 border-b border-pink-100 py-4">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-3 text-center">
+      <div onclick="setCategoryFilter('Fine Fragrance'); scrollToSection('catalog-section');" class="p-3 bg-white rounded-xl border border-pink-100 shadow-sm hover:border-pink-400 cursor-pointer transition">
+        <span class="text-[10px] font-extrabold tracking-widest uppercase text-pink-700">AMERICA'S #1 SCENT</span>
+        <h3 class="font-serif-vs text-sm sm:text-base font-bold text-gray-900 mt-0.5">Bombshell Eau de Parfum</h3>
+        <p class="text-[11px] text-gray-500">Complimentary Tote with $85+ Scent</p>
+      </div>
+      <div onclick="setCategoryFilter('Sleep & Lingerie'); scrollToSection('catalog-section');" class="p-3 bg-white rounded-xl border border-pink-100 shadow-sm hover:border-pink-400 cursor-pointer transition">
+        <span class="text-[10px] font-extrabold tracking-widest uppercase text-pink-700">THE ICONIC STRIPE</span>
+        <h3 class="font-serif-vs text-sm sm:text-base font-bold text-gray-900 mt-0.5">Washable Silk Pajamas</h3>
+        <p class="text-[11px] text-gray-500">Buy 1, Get 1 40% Off All Sleep</p>
+      </div>
+      <div onclick="openModal('fit-finder-modal')" class="p-3 bg-white rounded-xl border border-pink-100 shadow-sm hover:border-pink-400 cursor-pointer transition">
+        <span class="text-[10px] font-extrabold tracking-widest uppercase text-pink-700">30A TO 42DDD</span>
+        <h3 class="font-serif-vs text-sm sm:text-base font-bold text-gray-900 mt-0.5">Interactive Fit Calculator</h3>
+        <p class="text-[11px] text-gray-500">Find Your Exact Size in 30 Seconds</p>
+      </div>
+      <div onclick="openModal('rewards-modal')" class="p-3 bg-white rounded-xl border border-pink-100 shadow-sm hover:border-pink-400 cursor-pointer transition">
+        <span class="text-[10px] font-extrabold tracking-widest uppercase text-pink-700">VS &amp; PINK COLLECTIVE</span>
+        <h3 class="font-serif-vs text-sm sm:text-base font-bold text-gray-900 mt-0.5">Redeem Angel Rewards</h3>
+        <p class="text-[11px] text-gray-500">1,450 Points Available Now</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. MAIN PRODUCT CATALOG & FILTERING SUITE -->
+  <main id="catalog-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Section Title & Count -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-pink-100">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Curated Flagship Boutique</span>
+        <h2 class="font-serif-vs text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
+          The Victoria's Secret &amp; PINK Collection
+        </h2>
+        <p id="catalog-count-label" class="text-xs text-gray-500 mt-1">Showing 12 of 12 Luxury Pieces</p>
+      </div>
+
+      <!-- Horizontal Category Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <button type="button" data-cat-pill="All" onclick="setCategoryFilter('All')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-black text-pink-200">
+          All Categories
+        </button>
+        <button type="button" data-cat-pill="Sleep & Lingerie" onclick="setCategoryFilter('Sleep & Lingerie')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-pink-50 text-gray-800">
+          Sleep &amp; Lingerie
+        </button>
+        <button type="button" data-cat-pill="Fine Fragrance" onclick="setCategoryFilter('Fine Fragrance')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-pink-50 text-gray-800">
+          Fine Fragrance
+        </button>
+        <button type="button" data-cat-pill="Beauty & Mist" onclick="setCategoryFilter('Beauty & Mist')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-pink-50 text-gray-800">
+          Mist &amp; Body Care
+        </button>
+        <button type="button" data-cat-pill="Lounge & Cashmere" onclick="setCategoryFilter('Lounge & Cashmere')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-pink-50 text-gray-800">
+          Lounge &amp; Cashmere
+        </button>
+        <button type="button" data-cat-pill="Bags & Accessories" onclick="setCategoryFilter('Bags & Accessories')" class="px-4 py-2 rounded-full text-xs sm:text-sm font-medium bg-pink-50 text-gray-800">
+          Bags &amp; Accessories
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter & Sort Toolbar -->
+    <div class="my-5 flex flex-wrap items-center justify-between gap-3 bg-pink-50/40 p-3.5 rounded-xl border border-pink-100">
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Price Filter -->
+        <div class="flex items-center gap-2">
+          <label for="catalog-price-select" class="text-xs font-semibold text-gray-700">Price:</label>
+          <select id="catalog-price-select" class="text-xs bg-white border border-pink-200 rounded-lg px-3 py-1.5 font-medium text-gray-800 focus:outline-none focus:border-black">
+            <option value="all">All Prices</option>
+            <option value="under50">Under $50</option>
+            <option value="50to80">$50 – $80</option>
+            <option value="over80">$80 &amp; Above</option>
+          </select>
+        </div>
+
+        <!-- Bestsellers Checkbox -->
+        <label class="inline-flex items-center gap-2 text-xs font-semibold text-gray-800 cursor-pointer select-none bg-white px-3 py-1.5 rounded-lg border border-pink-200">
+          <input id="catalog-bestseller-checkbox" type="checkbox" class="rounded text-pink-600 focus:ring-pink-500" />
+          <span>★ Icons &amp; Bestsellers Only</span>
+        </label>
+
+        <button id="reset-catalog-filters-btn" type="button" class="text-xs font-semibold text-pink-700 hover:text-black underline px-2 py-1">
+          Reset Filters
+        </button>
+      </div>
+
+      <!-- Sort Dropdown -->
+      <div class="flex items-center gap-2 ml-auto">
+        <label for="catalog-sort-select" class="text-xs font-semibold text-gray-700">Sort By:</label>
+        <select id="catalog-sort-select" class="text-xs bg-white border border-pink-200 rounded-lg px-3 py-1.5 font-semibold text-gray-900 focus:outline-none focus:border-black">
+          <option value="featured">Featured Atelier Edit</option>
+          <option value="popular">Most Popular</option>
+          <option value="rating">Highest Rated (4.9★)</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Empty Filter State -->
+    <div id="catalog-empty-state" class="hidden py-16 text-center bg-pink-50/30 rounded-2xl border border-pink-100 my-4">
+      <h3 class="font-serif-vs text-xl font-bold text-gray-900">No Matching Pieces Found</h3>
+      <p class="text-xs text-gray-500 mt-1">Try clearing your search query or adjusting your price filter.</p>
+      <button type="button" onclick="document.getElementById('reset-catalog-filters-btn').click()" class="mt-4 px-5 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-pink-700 transition">
+        Show All 12 Pieces
+      </button>
+    </div>
+
+    <!-- Product Grid (Fully Responsive: 1 col mobile, 2 cols sm, 3 cols lg, 4 cols xl) -->
+    <div id="product-catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6"></div>
+
+  </main>
+
+  <!-- 7. RUNWAY EDITORIAL LOOKBOOK & ATELIER HIGHLIGHTS -->
+  <section id="editorial-lookbook-section" class="bg-neutral-950 text-white py-14 border-t border-neutral-800">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-pink-300">Backstage &amp; Boudoir Edit</span>
+          <h2 class="font-serif-vs text-2xl sm:text-4xl font-bold text-white mt-1">
+            The Autumn / Winter Runway Lookbook
+          </h2>
+        </div>
+        <button type="button" onclick="openModal('fit-finder-modal')" class="px-5 py-2.5 rounded-lg bg-pink-200 hover:bg-white text-black text-xs font-bold uppercase tracking-widest transition w-fit">
+          Launch Bra Fit Studio
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Editorial Card 1 -->
+        <div class="group relative rounded-2xl overflow-hidden border border-white/10 bg-neutral-900 flex flex-col justify-between">
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img id="editorial-card-img-1" src="" alt="Tease Noir Fine Fragrance" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300">01 • FINE FRAGRANCE HOUSE</span>
+              <h3 class="font-serif-vs text-xl font-bold text-white mt-1">French Lace &amp; Black Vanilla</h3>
+              <p class="text-xs text-gray-300 mt-1">Discover Tease Noir Collector's Edition with vintage boudoir atomizer.</p>
+              <button type="button" onclick="openProductModal('vs-06')" class="mt-3 px-4 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-pink-200 transition">
+                Shop Tease Noir — $84.95
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editorial Card 2 -->
+        <div class="group relative rounded-2xl overflow-hidden border border-white/10 bg-neutral-900 flex flex-col justify-between">
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img id="editorial-card-img-2" src="" alt="Dream Angels Ruby Slip Dress" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300">02 • DREAM ANGELS ATELIER</span>
+              <h3 class="font-serif-vs text-xl font-bold text-white mt-1">Ruby Satin &amp; Chantilly Lace</h3>
+              <p class="text-xs text-gray-300 mt-1">Bias-cut mulberry silk satin engineered to drape effortlessly.</p>
+              <button type="button" onclick="openProductModal('vs-07')" class="mt-3 px-4 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-pink-200 transition">
+                Shop Ruby Slip — $69.95
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editorial Card 3 -->
+        <div class="group relative rounded-2xl overflow-hidden border border-white/10 bg-neutral-900 flex flex-col justify-between">
+          <div class="aspect-[3/4] overflow-hidden relative">
+            <img id="editorial-card-img-3" src="" alt="Cloud Cashmere Lounge Set" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute bottom-5 left-5 right-5">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300">03 • PINK CASHMERE LOUNGE</span>
+              <h3 class="font-serif-vs text-xl font-bold text-white mt-1">Cloud-Soft Ribbed Knits</h3>
+              <p class="text-xs text-gray-300 mt-1">Cozy cashmere-blend cardigans and wide-leg palazzo trousers.</p>
+              <button type="button" onclick="openProductModal('vs-08')" class="mt-3 px-4 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-pink-200 transition">
+                Shop Cashmere Set — $78.00
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FOOTER WITH DEVELOPER ATTRIBUTION FOR TAMOJIT ROY -->
+  <footer class="bg-black text-gray-300 border-t border-neutral-800">
+    <!-- Iconic Stripe Divider -->
+    <div class="vs-iconic-stripes h-2 w-full"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-10 border-b border-neutral-800">
+        
+        <!-- Brand & Newsletter Column -->
+        <div class="lg:col-span-2">
+          <span class="font-serif-vs text-2xl font-bold tracking-[0.18em] text-white block">VICTORIA'S SECRET</span>
+          <p class="text-xs text-gray-400 mt-2 max-w-sm leading-relaxed">
+            The world's most iconic destination for fine fragrance, washable silk sleepwear, custom-fit bras, and runway accessories.
+          </p>
+          <form onsubmit="event.preventDefault(); showToast('Welcome to the VS Angel List!', 'Your 25% off welcome code VSANGEL25 is ready to use.');" class="mt-4 flex gap-2 max-w-sm">
+            <input type="email" required placeholder="Enter your email for 25% off..." class="flex-1 bg-neutral-900 border border-neutral-700 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-pink-400" />
+            <button type="submit" class="px-4 py-2 bg-pink-200 hover:bg-white text-black text-xs font-bold uppercase tracking-wider rounded-lg transition">
+              Join
+            </button>
+          </form>
+        </div>
+
+        <!-- Shop Categories -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-pink-200 mb-3">Shop</h4>
+          <ul class="space-y-2 text-xs text-gray-400">
+            <li><button type="button" onclick="setCategoryFilter('Sleep & Lingerie'); scrollToSection('catalog-section');" class="hover:text-white">Satin Pajamas &amp; Robes</button></li>
+            <li><button type="button" onclick="setCategoryFilter('Fine Fragrance'); scrollToSection('catalog-section');" class="hover:text-white">Bombshell &amp; Tease Perfumes</button></li>
+            <li><button type="button" onclick="setCategoryFilter('Beauty & Mist'); scrollToSection('catalog-section');" class="hover:text-white">Shimmer Mists &amp; Lotions</button></li>
+            <li><button type="button" onclick="setCategoryFilter('Lounge & Cashmere'); scrollToSection('catalog-section');" class="hover:text-white">PINK Cashmere Lounge</button></li>
+            <li><button type="button" onclick="setCategoryFilter('Bags & Accessories'); scrollToSection('catalog-section');" class="hover:text-white">Signature Striped Totes</button></li>
+          </ul>
+        </div>
+
+        <!-- Interactive Tools -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-pink-200 mb-3">Interactive Services</h4>
+          <ul class="space-y-2 text-xs text-gray-400">
+            <li><button type="button" onclick="openModal('fit-finder-modal')" class="hover:text-white">Bra &amp; Sleep Fit Calculator</button></li>
+            <li><button type="button" onclick="openModal('scent-finder-modal')" class="hover:text-white">Fragrance Personality Quiz</button></li>
+            <li><button type="button" onclick="openModal('rewards-modal')" class="hover:text-white">VS &amp; PINK Collective Rewards</button></li>
+            <li><button type="button" onclick="openModal('store-locator-modal')" class="hover:text-white">Book a Flagship Bra Fitting</button></li>
+            <li><button type="button" onclick="openModal('wishlist-modal')" class="hover:text-white">Saved Wishlist Favorites</button></li>
+          </ul>
+        </div>
+
+        <!-- Developer Credit Highlight Card -->
+        <div class="bg-neutral-900/90 border border-pink-400/30 rounded-xl p-4">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300 block">Lead Developer &amp; Architect</span>
+          <h4 class="font-serif-vs text-lg font-bold text-white mt-0.5">Tamojit Roy</h4>
+          <p class="text-[11px] text-gray-400 mt-1 leading-relaxed">
+            Crafted with full multi-resolution responsiveness, custom SVG favicon, interactive state management, and Netlify production configuration.
+          </p>
+          <button type="button" onclick="openModal('developer-credit-modal')" class="mt-3 w-full py-2 bg-pink-200 hover:bg-white text-black text-[11px] font-bold uppercase tracking-wider rounded-lg transition">
+            View Architecture &amp; Credits
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Bottom Copyright & Credit Row -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+        <p>© 2026 Victoria's Secret Flagship Web Clone • Hosted Ready for Netlify.</p>
+        <p class="text-pink-200 font-medium">
+          Designed &amp; Developed by <strong class="text-white underline cursor-pointer" onclick="openModal('developer-credit-modal')">Tamojit Roy</strong>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 9. MOBILE BOTTOM APP NAVIGATION BAR (Visible on Phones < 768px) -->
+  <nav aria-label="Mobile Bottom App Bar" class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-pink-200 px-2 py-1.5 flex items-center justify-around shadow-lg">
+    <button type="button" onclick="setBrandFilter('All'); setCategoryFilter('All'); scrollToSection('hero-section');" class="flex flex-col items-center gap-0.5 text-[10px] font-semibold text-gray-800">
+      <svg class="w-5 h-5 text-pink-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+      <span>Home</span>
+    </button>
+    <button type="button" onclick="scrollToSection('catalog-section')" class="flex flex-col items-center gap-0.5 text-[10px] font-semibold text-gray-800">
+      <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/>
+      </svg>
+      <span>Shop</span>
+    </button>
+    <button type="button" onclick="openModal('fit-finder-modal')" class="flex flex-col items-center gap-0.5 text-[10px] font-semibold text-gray-800">
+      <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+      </svg>
+      <span>Fit Quiz</span>
+    </button>
+    <button type="button" onclick="openModal('wishlist-modal')" class="relative flex flex-col items-center gap-0.5 text-[10px] font-semibold text-gray-800">
+      <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      </svg>
+      <span id="mobile-bottom-wishlist-count" class="absolute -top-1 right-2 w-4 h-4 rounded-full bg-pink-600 text-white text-[9px] font-bold flex items-center justify-center">2</span>
+      <span>Saved</span>
+    </button>
+    <button type="button" onclick="openBagDrawer()" class="relative flex flex-col items-center gap-0.5 text-[10px] font-semibold text-gray-800">
+      <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+      </svg>
+      <span id="mobile-bottom-bag-count" class="absolute -top-1 right-2 w-4 h-4 rounded-full bg-black text-pink-200 text-[9px] font-bold flex items-center justify-center">2</span>
+      <span>Bag</span>
+    </button>
+  </nav>
+
+  <!-- 10. MOBILE SLIDE-OUT NAVIGATION DRAWER -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="closeMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-xs"></div>
+    <div id="mobile-menu-panel" class="drawer-slide -translate-x-full fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-white shadow-2xl flex flex-col justify-between overflow-y-auto z-10">
+      <div>
+        <div class="p-4 bg-black text-white flex items-center justify-between">
+          <div>
+            <span class="font-serif-vs text-lg font-bold tracking-widest text-pink-200">VICTORIA'S SECRET</span>
+            <span class="block text-[10px] text-gray-400">Flagship Mobile Experience</span>
+          </div>
+          <button type="button" onclick="closeMobileMenu()" aria-label="Close Menu" class="p-1.5 text-gray-300 hover:text-white">✕</button>
+        </div>
+
+        <div class="p-4 space-y-2 border-b border-pink-100">
+          <div class="flex items-center justify-between text-xs font-semibold text-gray-700">
+            <span>Display Currency:</span>
+            <select id="currency-selector-mobile" onchange="handleCurrencyChange(this.value)" class="border border-pink-200 rounded px-2 py-1 text-xs font-bold">
+              <option value="USD">USD ($)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-4 space-y-1">
+          <p class="text-[10px] font-bold uppercase tracking-widest text-pink-700 mb-2">Shop By Department</p>
+          <button type="button" onclick="setCategoryFilter('All'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">All New &amp; Bestsellers</button>
+          <button type="button" onclick="setCategoryFilter('Sleep & Lingerie'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">Sleepwear &amp; Lingerie</button>
+          <button type="button" onclick="setCategoryFilter('Fine Fragrance'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">Fine Fragrance (Bombshell &amp; Tease)</button>
+          <button type="button" onclick="setCategoryFilter('Beauty & Mist'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">Shimmer Mist &amp; Body Care</button>
+          <button type="button" onclick="setCategoryFilter('Lounge & Cashmere'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">PINK Cashmere &amp; Lounge</button>
+          <button type="button" onclick="setCategoryFilter('Bags & Accessories'); scrollToSection('catalog-section');" class="w-full text-left py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-semibold text-gray-900">Striped Totes &amp; Vanity Cases</button>
+        </div>
+
+        <div class="p-4 border-t border-pink-100 space-y-2">
+          <p class="text-[10px] font-bold uppercase tracking-widest text-pink-700 mb-2">Atelier Tools</p>
+          <button type="button" onclick="closeMobileMenu(); openModal('fit-finder-modal');" class="w-full text-left py-2 px-3 rounded-lg bg-pink-50 text-xs font-bold text-pink-900">📏 Interactive Bra Fit Calculator</button>
+          <button type="button" onclick="closeMobileMenu(); openModal('scent-finder-modal');" class="w-full text-left py-2 px-3 rounded-lg bg-pink-50 text-xs font-bold text-pink-900">✨ Scent Studio Matcher</button>
+          <button type="button" onclick="closeMobileMenu(); openModal('rewards-modal');" class="w-full text-left py-2 px-3 rounded-lg bg-pink-50 text-xs font-bold text-pink-900">★ VS Collective Rewards (1,450 PTS)</button>
+          <button type="button" onclick="closeMobileMenu(); openModal('store-locator-modal');" class="w-full text-left py-2 px-3 rounded-lg bg-pink-50 text-xs font-bold text-pink-900">📍 Store Locator &amp; VIP Fittings</button>
+        </div>
+      </div>
+
+      <div class="p-4 bg-neutral-950 text-white text-xs">
+        <p class="text-[10px] uppercase tracking-widest text-pink-300 font-bold">Developer Credit</p>
+        <p class="font-serif-vs text-sm font-bold mt-0.5">Tamojit Roy</p>
+        <button type="button" onclick="closeMobileMenu(); openModal('developer-credit-modal');" class="mt-2 text-[11px] text-pink-200 underline">View Architecture Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. SLIDE-OVER SHOPPING BAG DRAWER -->
+  <div id="shopping-bag-drawer" class="fixed inset-0 z-50 hidden">
+    <div onclick="closeBagDrawer()" class="fixed inset-0 bg-black/60 backdrop-blur-xs"></div>
+    <div id="shopping-bag-panel" class="drawer-slide translate-x-full fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between z-10">
+      
+      <!-- Bag Header -->
+      <div class="p-4 bg-black text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="font-serif-vs text-lg font-bold tracking-wider text-pink-200">YOUR SHOPPING BAG</span>
+          <span id="drawer-bag-count" class="px-2 py-0.5 rounded-full bg-pink-200 text-black text-xs font-extrabold">2</span>
+        </div>
+        <button type="button" onclick="closeBagDrawer()" aria-label="Close Shopping Bag" class="p-1.5 text-gray-300 hover:text-white text-sm">✕</button>
+      </div>
+
+      <!-- Free Shipping Progress Bar -->
+      <div class="px-4 py-2.5 bg-pink-50 border-b border-pink-100">
+        <p id="bag-shipping-progress-text" class="text-[11px] text-center text-gray-800"></p>
+        <div class="w-full h-2 bg-pink-200/60 rounded-full overflow-hidden mt-1.5">
+          <div id="bag-shipping-progress-bar" class="h-full bg-gradient-to-r from-pink-600 to-rose-500 transition-all duration-300" style="width: 100%"></div>
+        </div>
+      </div>
+
+      <!-- Bag Items Scrollable Area -->
+      <div id="bag-items-list" class="flex-1 overflow-y-auto px-4 divide-y divide-pink-100"></div>
+
+      <!-- Bag Summary & Checkout Footer -->
+      <div id="bag-summary-container" class="p-4 bg-pink-50/40 border-t border-pink-200 space-y-3">
+        
+        <!-- Complimentary / Luxury Gift Wrap Toggle -->
+        <label class="flex items-center justify-between p-2.5 rounded-lg bg-white border border-pink-200 cursor-pointer">
+          <div class="flex items-center gap-2">
+            <input id="bag-gift-wrap-checkbox" type="checkbox" checked onchange="toggleGiftWrap(this.checked)" class="rounded text-pink-600 focus:ring-pink-500" />
+            <span class="text-xs font-semibold text-gray-800">🎁 Signature Pink Stripe Gift Box &amp; Ribbon</span>
+          </div>
+          <span class="text-xs font-bold text-gray-900">+$6.00</span>
+        </label>
+
+        <!-- Promo Code Input -->
+        <div>
+          <div class="flex gap-2">
+            <input id="bag-promo-input" type="text" value="VSANGEL25" placeholder="Promo code (e.g. VSANGEL25)" class="flex-1 bg-white border border-pink-200 rounded-lg px-3 py-1.5 text-xs font-semibold uppercase focus:outline-none focus:border-black" />
+            <button type="button" onclick="applyBagPromoCode()" class="px-3.5 py-1.5 bg-black hover:bg-pink-700 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition">
+              Apply
+            </button>
+          </div>
+          <div id="bag-active-promo-label" class="mt-1.5"></div>
+        </div>
+
+        <!-- Totals Breakdown -->
+        <div class="space-y-1 text-xs pt-2 border-t border-pink-200/80">
+          <div class="flex justify-between text-gray-600"><span>Subtotal</span><span id="bag-subtotal-val" class="font-semibold text-gray-900">$154.90</span></div>
+          <div class="flex justify-between text-pink-700 font-semibold"><span>Angel Promo Savings</span><span id="bag-discount-val">−$38.73</span></div>
+          <div class="flex justify-between text-gray-600"><span>Signature Gift Box</span><span id="bag-giftwrap-val">$6.00</span></div>
+          <div class="flex justify-between text-gray-600"><span>Express Shipping</span><span id="bag-shipping-val" class="font-bold text-emerald-700">FREE</span></div>
+          <div class="flex justify-between text-gray-600"><span>Estimated Tax</span><span id="bag-tax-val">$8.13</span></div>
+          <div class="flex justify-between text-base font-bold text-gray-900 pt-1.5 border-t border-pink-200">
+            <span>Estimated Total</span>
+            <span id="bag-total-val">$130.30</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="openCheckoutModal()" class="w-full py-3 bg-black hover:bg-pink-700 text-white text-xs font-extrabold tracking-widest uppercase rounded-xl shadow-lg transition">
+          Proceed to Secure Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. PRODUCT DETAIL / QUICK VIEW MODAL -->
+  <div id="product-detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('product-detail-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 shadow-2xl z-10 border border-pink-100">
+      <button type="button" onclick="closeModal('product-detail-modal')" aria-label="Close Product Modal" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold transition">
+        ✕
+      </button>
+      <div id="product-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 13. BRA & SLEEPWEAR FIT CALCULATOR MODAL -->
+  <div id="fit-finder-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('fit-finder-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('fit-finder-modal')" aria-label="Close Fit Calculator" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+      
+      <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Victoria's Secret Fit Salon</span>
+      <h3 class="font-serif-vs text-2xl sm:text-3xl font-bold text-gray-900 mt-1">Interactive Bra &amp; Sleepwear Fit Calculator</h3>
+      <p class="text-xs sm:text-sm text-gray-600 mt-1">Enter your ribcage (underbust) and fullest bust measurements in inches to compute your exact Victoria's Secret bra and sleepwear size.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
+        <div>
+          <label for="fit-underbust-input" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">1. Band (Underbust in.)</label>
+          <input id="fit-underbust-input" type="number" min="26" max="44" step="0.5" value="31.5" oninput="calculateBraFit()" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm font-bold text-gray-900 focus:outline-none focus:border-black" />
+        </div>
+        <div>
+          <label for="fit-bust-input" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">2. Full Bust (Inches)</label>
+          <input id="fit-bust-input" type="number" min="28" max="50" step="0.5" value="35.0" oninput="calculateBraFit()" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm font-bold text-gray-900 focus:outline-none focus:border-black" />
+        </div>
+        <div>
+          <label for="fit-coverage-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">3. Preferred Silhouette</label>
+          <select id="fit-coverage-select" onchange="calculateBraFit()" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 focus:outline-none focus:border-black">
+            <option value="Lightly Lined Demi">Lightly Lined Demi</option>
+            <option value="Bombshell Add-2-Cups Push-Up">Bombshell Push-Up</option>
+            <option value="Dream Angels Unlined Lace">Unlined French Lace</option>
+            <option value="Wireless Lounge">Wireless Cloud Comfort</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="fit-finder-result-box" class="mt-5"></div>
+    </div>
+  </div>
+
+  <!-- 14. FRAGRANCE PERSONALITY MATCHER MODAL -->
+  <div id="scent-finder-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('scent-finder-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('scent-finder-modal')" aria-label="Close Scent Quiz" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+
+      <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Master Perfumer Studio</span>
+      <h3 class="font-serif-vs text-2xl sm:text-3xl font-bold text-gray-900 mt-1">Find Your Signature Victoria's Secret Scent</h3>
+      <p class="text-xs text-gray-600 mt-1">Select your favorite olfactory notes and mood to reveal your bespoke match.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+        <div>
+          <label for="scent-family-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">Preferred Note Family</label>
+          <select id="scent-family-select" onchange="runFragranceMatcher()" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs sm:text-sm font-semibold text-gray-900">
+            <option value="Floral & Fruity">Sparkling Peony &amp; Passionfruit (Fruity Floral)</option>
+            <option value="Warm & Gourmand">Black Vanilla &amp; Gardenia (Warm Gourmand)</option>
+            <option value="Shimmer & Rose">Dewy Rose Petals &amp; Cedarwood (Fresh Floral)</option>
+            <option value="Honey & Vanilla">Golden Honey &amp; Whipped Vanilla (Sweet Cozy)</option>
+          </select>
+        </div>
+        <div>
+          <label for="scent-vibe-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">Occasion &amp; Mood</label>
+          <select id="scent-vibe-select" onchange="runFragranceMatcher()" class="w-full border border-pink-200 rounded-lg px-3 py-2 text-xs sm:text-sm font-semibold text-gray-900">
+            <option value="Confidence & Glamour">Day-to-Night Glamour</option>
+            <option value="Boudoir Evening">Romantic Evening Out</option>
+            <option value="Radiant Skin Shimmer">Vacation &amp; Golden Hour Glow</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" onclick="runFragranceMatcher()" class="mt-4 w-full py-2.5 bg-black hover:bg-pink-700 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition">
+        Reveal My Signature Scent
+      </button>
+
+      <div id="scent-quiz-result"></div>
+    </div>
+  </div>
+
+  <!-- 15. WISHLIST MODAL -->
+  <div id="wishlist-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('wishlist-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('wishlist-modal')" aria-label="Close Wishlist" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+      <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Saved Favorites</span>
+      <h3 class="font-serif-vs text-2xl font-bold text-gray-900 mt-1">Your Victoria's Secret Wishlist ♥</h3>
+      <div id="wishlist-modal-list" class="mt-5"></div>
+    </div>
+  </div>
+
+  <!-- 16. VS COLLECTIVE REWARDS MODAL -->
+  <div id="rewards-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('rewards-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('rewards-modal')" aria-label="Close Rewards Modal" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+      
+      <div class="p-5 rounded-xl bg-black text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300">Gold Tier Angel Member</span>
+          <h3 class="font-serif-vs text-2xl font-bold mt-0.5">VS &amp; PINK Collective Rewards</h3>
+          <p class="text-xs text-gray-300 mt-1">Earn 10 points per $1 spent across Victoria's Secret &amp; PINK.</p>
+        </div>
+        <div class="text-left sm:text-right bg-white/10 px-4 py-2.5 rounded-xl border border-pink-300/30">
+          <span class="text-[10px] uppercase tracking-widest text-pink-200 block">Available Balance</span>
+          <span id="rewards-modal-points-balance" class="text-2xl font-extrabold text-white">1,450</span>
+          <span class="text-xs text-pink-300 font-bold">PTS</span>
+        </div>
+      </div>
+
+      <h4 class="text-xs font-bold uppercase tracking-widest text-gray-700 mt-5 mb-3">Redeem Instant Perks</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="p-3.5 rounded-xl border border-pink-200 bg-pink-50/40 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-pink-700 uppercase">500 Points</span>
+            <h5 class="font-serif-vs text-base font-bold text-gray-900 mt-0.5">Complimentary Express Shipping</h5>
+            <p class="text-[11px] text-gray-500 mt-1">Waives standard &amp; express shipping fees on any order.</p>
+          </div>
+          <button type="button" onclick="redeemRewardPerk(500, 'FREESHIP', 'Free Express Shipping Perk')" class="mt-3 w-full py-2 bg-black hover:bg-pink-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-lg transition">
+            Redeem (500 PTS)
+          </button>
+        </div>
+
+        <div class="p-3.5 rounded-xl border border-pink-200 bg-pink-50/40 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-pink-700 uppercase">750 Points</span>
+            <h5 class="font-serif-vs text-base font-bold text-gray-900 mt-0.5">$15 Off $75+ Voucher</h5>
+            <p class="text-[11px] text-gray-500 mt-1">Instant $15 reward applied to your current bag.</p>
+          </div>
+          <button type="button" onclick="redeemRewardPerk(750, 'BOMBSHELL15', '$15 Reward Voucher')" class="mt-3 w-full py-2 bg-black hover:bg-pink-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-lg transition">
+            Redeem (750 PTS)
+          </button>
+        </div>
+
+        <div class="p-3.5 rounded-xl border border-pink-200 bg-pink-50/40 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-pink-700 uppercase">1,000 Points</span>
+            <h5 class="font-serif-vs text-base font-bold text-gray-900 mt-0.5">25% Off VIP Angel Pass</h5>
+            <p class="text-[11px] text-gray-500 mt-1">Unlocks 25% off your entire Victoria's Secret bag.</p>
+          </div>
+          <button type="button" onclick="redeemRewardPerk(1000, 'VSANGEL25', '25% Off VIP Angel Pass')" class="mt-3 w-full py-2 bg-black hover:bg-pink-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-lg transition">
+            Redeem (1,000 PTS)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. STORE LOCATOR & VIP FITTING RESERVATION MODAL -->
+  <div id="store-locator-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('store-locator-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('store-locator-modal')" aria-label="Close Store Locator" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+      <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Global Flagship Boutiques</span>
+      <h3 class="font-serif-vs text-2xl font-bold text-gray-900 mt-1">Store Locator &amp; 1-on-1 Bra Fitting Reservations</h3>
+      <p class="text-xs text-gray-600 mt-1">Reserve a complimentary private fitting session with a Certified Bra Fit Stylist.</p>
+      <div id="store-locator-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5"></div>
+    </div>
+  </div>
+
+  <!-- 18. SECURE CHECKOUT MODAL -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('checkout-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl z-10 border border-pink-200">
+      <button type="button" onclick="closeModal('checkout-modal')" aria-label="Close Checkout" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-pink-50 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center font-bold">✕</button>
+
+      <!-- Step 1: Checkout Form -->
+      <div id="checkout-form-step">
+        <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Express Encrypted Checkout</span>
+        <h3 class="font-serif-vs text-2xl font-bold text-gray-900 mt-1">Complete Your Victoria's Secret Order</h3>
+
+        <form onsubmit="submitOrderCheckout(event)" class="space-y-3.5 mt-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="checkout-name-input" class="block text-xs font-bold uppercase text-gray-700 mb-1">Full Name</label>
+              <input id="checkout-name-input" type="text" required value="Tamojit Roy" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:border-black" />
+            </div>
+            <div>
+              <label for="checkout-email-input" class="block text-xs font-bold uppercase text-gray-700 mb-1">Email for Receipt</label>
+              <input id="checkout-email-input" type="email" required value="tamojit.roy@example.com" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:border-black" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="checkout-city-input" class="block text-xs font-bold uppercase text-gray-700 mb-1">Shipping Address &amp; City</label>
+              <input id="checkout-city-input" type="text" required value="Howrah / Kolkata, West Bengal" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:border-black" />
+            </div>
+            <div>
+              <label for="checkout-payment-select" class="block text-xs font-bold uppercase text-gray-700 mb-1">Payment Method</label>
+              <select id="checkout-payment-select" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs font-semibold focus:outline-none focus:border-black">
+                <option value="vs-card">Victoria's Secret Mastercard (5% Back)</option>
+                <option value="card">Visa / Mastercard / Amex</option>
+                <option value="upi">Apple Pay / Google Pay / Instant UPI</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-800">Total to Authorize (Incl. Gift Box &amp; Promo):</span>
+            <span id="checkout-total-Amount-label" class="text-lg font-extrabold text-pink-700">$130.30</span>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-black hover:bg-pink-700 text-white text-xs font-extrabold uppercase tracking-widest rounded-xl shadow-lg transition">
+            Place Order Now
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Order Confirmation -->
+      <div id="checkout-success-step" class="hidden text-center py-4">
+        <div class="w-14 h-14 mx-auto rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl font-bold mb-3">✓</div>
+        <span class="text-xs font-bold uppercase tracking-widest text-pink-700">Thank You For Shopping Victoria's Secret</span>
+        <h3 class="font-serif-vs text-2xl font-bold text-gray-900 mt-1">Your Luxury Order is Confirmed!</h3>
+        <p class="text-xs text-gray-600 mt-1">Your items are being hand-wrapped in our signature pink &amp; black striped tissue.</p>
+        <div id="checkout-order-confirmation-details" class="mt-4"></div>
+        <button type="button" onclick="closeModal('checkout-modal')" class="mt-5 px-6 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-pink-700 transition">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 19. DEVELOPER CREDIT & ARCHITECTURE MODAL (TAMOJIT ROY) -->
+  <div id="developer-credit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+    <div onclick="closeModal('developer-credit-modal')" class="fixed inset-0 bg-black/65 backdrop-blur-xs"></div>
+    <div class="relative bg-neutral-950 text-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl z-10 border border-pink-400/40">
+      <button type="button" onclick="closeModal('developer-credit-modal')" aria-label="Close Developer Credits" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-pink-600 text-white flex items-center justify-center font-bold">✕</button>
+      
+      <span class="inline-block px-2.5 py-0.5 rounded bg-pink-500/20 border border-pink-400/40 text-pink-200 text-[10px] font-bold uppercase tracking-widest">
+        Netlify Production Build
+      </span>
+      <h3 class="font-serif-vs text-2xl sm:text-3xl font-bold text-white mt-2">
+        Developed by Tamojit Roy
+      </h3>
+      <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+        This flagship Victoria's Secret &amp; PINK responsive web application was engineered by <strong>Tamojit Roy</strong> for seamless deployment on <strong>Netlify</strong> across mobile phones (320px+), tablets, laptops, and 4K displays.
+      </p>
+
+      <ul class="mt-4 space-y-2 text-xs text-gray-300 bg-white/5 p-4 rounded-xl border border-white/10">
+        <li>✓ <strong>Multi-Resolution Responsive UI:</strong> Adaptive sticky header, mobile bottom navigation bar, slide-over drawers, and fluid product cards.</li>
+        <li>✓ <strong>Custom Vector Favicon:</strong> Embedded Victoria's Secret monogram crest SVG favicon (`favicon.svg`).</li>
+        <li>✓ <strong>Full Interactive E-Commerce Engine:</strong> Live search, multi-facet filtering, shade &amp; size selection, Bra Fit Calculator, Scent Matcher, Rewards redemption, and multi-currency checkout.</li>
+        <li>✓ <strong>Netlify Ready:</strong> Bundled with `netlify.toml`, `_redirects`, modular CSS/JS, and optimized studio photography.</li>
+      </ul>
+
+      <button type="button" onclick="closeModal('developer-credit-modal')" class="mt-5 w-full py-2.5 bg-pink-200 hover:bg-white text-black text-xs font-extrabold uppercase tracking-widest rounded-lg transition">
+        Back to Storefront
+      </button>
+    </div>
+  </div>
+
+  <!-- 20. GLOBAL TOAST NOTIFICATION -->
+  <div id="vs-toast-container" class="fixed bottom-20 md:bottom-6 right-4 z-50 max-w-sm bg-black text-white border border-pink-400/50 rounded-xl px-4 py-3 shadow-2xl transition-all duration-300 transform translate-y-24 opacity-0 pointer-events-none flex items-start gap-3">
+    <span class="w-6 h-6 rounded-full bg-pink-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</span>
+    <div>
+      <p id="vs-toast-title" class="text-xs font-bold text-pink-200"></p>
+      <p id="vs-toast-subtitle" class="text-[11px] text-gray-300 mt-0.5"></p>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

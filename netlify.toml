@@ -1,0 +1,23 @@
+# Netlify Deployment Configuration
+# Victoria's Secret Flagship Web Clone — Engineered by Tamojit Roy
+
+[build]
+  publish = "."
+  command = "echo 'Static production bundle ready for Netlify deployment by Tamojit Roy'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

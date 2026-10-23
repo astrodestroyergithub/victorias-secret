@@ -1,0 +1,102 @@
+/* Victoria's Secret Flagship Web Application Stylesheet
+   Designed & Developed by Tamojit Roy */
+
+:root {
+  --vs-pink: #F5C6D6;
+  --vs-pink-deep: #D81B60;
+  --vs-pink-soft: #FDF4F7;
+  --vs-stripe-a: #FADCE6;
+  --vs-stripe-b: #FFF6F9;
+  --vs-black: #111111;
+  --vs-charcoal: #222222;
+  --vs-gold: #C5A059;
+  --vs-border: #EAE2E6;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111111;
+  background-color: #FFFFFF;
+  scroll-behavior: smooth;
+}
+
+.font-serif-vs {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+/* Iconic Victoria's Secret Ribbon Stripe Pattern */
+.vs-iconic-stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    #FADCE6 0px,
+    #FADCE6 18px,
+    #FFF7FA 18px,
+    #FFF7FA 36px
+  );
+}
+
+.vs-dark-stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    #181818 0px,
+    #181818 20px,
+    #231F20 20px,
+    #231F20 40px
+  );
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF5F7;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8A7B8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B81D5B;
+}
+
+/* Product Card Image Zoom */
+.product-card-img {
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover .product-card-img {
+  transform: scale(1.05);
+}
+
+/* Smooth Drawer & Modal Transitions */
+.backdrop-fade {
+  transition: opacity 0.25s ease-in-out;
+}
+.drawer-slide {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hide scrollbar for horizontal pill bars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 68px; /* Space for mobile bottom app bar */
+  }
+}
